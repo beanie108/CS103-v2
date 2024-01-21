@@ -2,8 +2,15 @@
 #include <string>
 #include <map>
 #include <limits>
+#include <vector>
 
 enum class UserType { TEACHER, STUDENT };
+
+struct LunchOrder {
+    std::string username;
+    std::string meal;
+    float price;
+};
 
 class User {
 public:
@@ -11,19 +18,26 @@ public:
     std::string password;
     UserType userType;
 
-    User() {} // Default constructor
+    User() : userType(UserType::STUDENT) {}
 
     User(std::string uname, std::string pword, UserType type)
         : username(uname), password(pword), userType(type) {}
 };
 
-class Administrator {
-private:
-    std::map<std::string, User> users;
-    const std::string adminUsername = "admin";
-    const std::string adminPassword = "admin789";
 
-public:
+class Administrator {
+    private:
+        std::map<std::string, User> users;
+        const std::string adminUsername = "admin";
+        const std::string adminPassword = "admin789";
+        std::vector<LunchOrder> lunchOrders;
+
+    public:
+        Administrator() {
+            // Add predefined user Bob
+            addUser("Bob", "Bob2024", UserType::STUDENT);
+        }
+
     bool login(std::string username, std::string password) {
         return username == adminUsername && password == adminPassword;
     }
@@ -76,6 +90,20 @@ public:
                 std::cout << userPair.first << " (Type: " << static_cast<int>(userPair.second.userType) << ")" << std::endl;
             }
         }
+    }
+
+    void addLunchOrder(const std::string& username, const std::string& meal, float price) {
+        lunchOrders.push_back(LunchOrder{ username, meal, price });
+    }
+
+    void generateLunchReport() {
+        float total = 0.0;
+        std::cout << "Lunch Orders Report:\n";
+        for (const auto& order : lunchOrders) {
+            std::cout << "User: " << order.username << ", Meal: " << order.meal << ", Price: $" << order.price << std::endl;
+            total += order.price;
+        }
+        std::cout << "Total Revenue: $" << total << std::endl;
     }
 
     float getDiscountPercentage(UserType userType) {
@@ -142,6 +170,65 @@ void showLunchMenuOptions() {
     std::cout << "OP3 - Falafel Salad\n";
     std::cout << "OP4 - Return to Main Menu\n";
     std::cout << "Please enter your choice: ";
+}
+
+void showSchoolUserMenu(Administrator& admin) {
+    std::string username, password;
+    std::cout << "Enter school user username: ";
+    std::getline(std::cin, username);
+    std::cout << "Enter school user password: ";
+    std::getline(std::cin, password);
+
+    if (admin.isUserValid(username, password)) {
+        std::cout << "School user logged in successfully.\n";
+        std::string choice;
+        while (true) {
+            std::cout << "\nSchool User Menu:\n";
+            std::cout << "S1 - Place lunch order\n";
+            std::cout << "S2 - Return to main menu\n";
+            std::cout << "Please enter your choice: ";
+            std::getline(std::cin, choice);
+
+            if (choice == "S1") {
+                std::cout << "Select your meal:\n";
+                std::cout << "1 - Chicken Pasta ($10)\n";
+                std::cout << "2 - Spaghetti Bolognaise ($12)\n";
+                std::cout << "3 - Falafel Salad ($8)\n";
+                std::string mealChoice;
+                std::getline(std::cin, mealChoice);
+                float price = 0.0;
+                std::string meal;
+                if (mealChoice == "1") {
+                    meal = "Chicken Pasta";
+                    price = 10.0;
+                }
+                else if (mealChoice == "2") {
+                    meal = "Spaghetti Bolognaise";
+                    price = 12.0;
+                }
+                else if (mealChoice == "3") {
+                    meal = "Falafel Salad";
+                    price = 8.0;
+                }
+                else {
+                    std::cout << "Invalid choice.\n";
+                    return;
+                }
+                admin.addLunchOrder(username, meal, price);
+                std::cout << "Order placed successfully.\n";
+            }
+
+            else if (choice == "S2") {
+                break; // Returning to the main menu
+            }
+            else {
+                std::cout << "Invalid choice. Please try again.\n";
+            }
+        }
+    }
+    else {
+        std::cout << "Invalid school user username or password.\n";
+    }
 }
 
 int main() {
@@ -229,7 +316,7 @@ int main() {
             }
         }
         else if (choice == "2") { // School User Login
-            // ... [School user login logic]
+            showSchoolUserMenu(admin);
         }
         else if (choice == "3") { // Exit
             std::cout << "Exiting the system.\n";
