@@ -1,0 +1,29 @@
+﻿  main.cpp
+C:\Users\bjean\source\repos\CS103-v2\CS103-v2\cs103_project\main.cpp(263,30): warning C4551: function call missing argument list
+C:\Users\bjean\source\repos\CS103-v2\CS103-v2\cs103_project\main.cpp(268,17): error C2660: 'showSchoolLunchesMenu': function does not take 1 arguments
+  C:\Users\bjean\source\repos\CS103-v2\CS103-v2\cs103_project\main.cpp(162,6):
+  see declaration of 'showSchoolLunchesMenu'
+  C:\Users\bjean\source\repos\CS103-v2\CS103-v2\cs103_project\main.cpp(268,17):
+  while trying to match the argument list '(Administrator)'
+  
+C:\Users\bjean\source\repos\CS103-v2\CS103-v2\cs103_project\main.cpp(283,17): error C2065: 'schoolLunchChoice': undeclared identifier
+C:\Users\bjean\source\repos\CS103-v2\CS103-v2\cs103_project\main.cpp(283,46): error C2065: 'schoolLunchChoice': undeclared identifier
+C:\Users\bjean\source\repos\CS103-v2\CS103-v2\cs103_project\main.cpp(310,24): error C2065: 'schoolLunchChoice': undeclared identifier
+C:\Users\bjean\source\repos\CS103-v2\CS103-v2\cs103_project\main.cpp(310,53): error C2065: 'schoolLunchChoice': undeclared identifier
+C:\Users\bjean\source\repos\CS103-v2\CS103-v2\cs103_project\main.cpp(312,24): error C2065: 'schoolLunchChoice': undeclared identifier
+C:\Users\bjean\source\repos\CS103-v2\CS103-v2\cs103_project\main.cpp(312,53): error C2065: 'schoolLunchChoice': undeclared identifier
+C:\Users\bjean\source\repos\CS103-v2\CS103-v2\cs103_project\main.cpp(319,20): error C2065: 'adminChoice': undeclared identifier
+C:\Users\bjean\source\repos\CS103-v2\CS103-v2\cs103_project\main.cpp(319,42): error C2065: 'adminChoice': undeclared identifier
+C:\Users\bjean\source\repos\CS103-v2\CS103-v2\cs103_project\main.cpp(326,7): error C2181: illegal else without matching if
+C:\Users\bjean\source\repos\CS103-v2\CS103-v2\cs103_project\main.cpp(329,5): error C2059: syntax error: 'else'
+C:\Users\bjean\source\repos\CS103-v2\CS103-v2\cs103_project\main.cpp(329,29): error C2143: syntax error: missing ';' before '{'
+C:\Users\bjean\source\repos\CS103-v2\CS103-v2\cs103_project\main.cpp(329,29): error C2447: '{': missing function header (old-style formal list?)
+C:\Users\bjean\source\repos\CS103-v2\CS103-v2\cs103_project\main.cpp(331,5): error C2059: syntax error: 'else'
+C:\Users\bjean\source\repos\CS103-v2\CS103-v2\cs103_project\main.cpp(331,29): error C2143: syntax error: missing ';' before '{'
+C:\Users\bjean\source\repos\CS103-v2\CS103-v2\cs103_project\main.cpp(331,29): error C2447: '{': missing function header (old-style formal list?)
+C:\Users\bjean\source\repos\CS103-v2\CS103-v2\cs103_project\main.cpp(334,5): error C2059: syntax error: 'else'
+C:\Users\bjean\source\repos\CS103-v2\CS103-v2\cs103_project\main.cpp(334,10): error C2143: syntax error: missing ';' before '{'
+C:\Users\bjean\source\repos\CS103-v2\CS103-v2\cs103_project\main.cpp(334,10): error C2447: '{': missing function header (old-style formal list?)
+C:\Users\bjean\source\repos\CS103-v2\CS103-v2\cs103_project\main.cpp(337,1): error C2059: syntax error: 'return'
+C:\Users\bjean\source\repos\CS103-v2\CS103-v2\cs103_project\main.cpp(338,1): error C2059: syntax error: '}'
+C:\Users\bjean\source\repos\CS103-v2\CS103-v2\cs103_project\main.cpp(338,1): error C2143: syntax error: missing ';' before '}'
