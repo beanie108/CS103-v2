@@ -10,6 +10,7 @@ struct LunchOrder {
     std::string username;
     std::string meal;
     float price;
+    std::string paymentMethod;  
 };
 
 struct MenuItem {
@@ -106,7 +107,16 @@ public:
     }
 
     void addLunchOrder(const std::string& username, const std::string& meal, float price) {
-        lunchOrders.push_back(LunchOrder{ username, meal, price });
+        auto userIt = users.find(username);
+        if (userIt != users.end()) {
+            float discount = getDiscountPercentage(userIt->second.userType);
+            float discountedPrice = price * (1 - discount);
+            std::string paymentMethod = (paymentMethod == "1" ? "Cash" : "Eftpos");
+            lunchOrders.push_back(LunchOrder{ username, meal, discountedPrice, paymentMethod });
+        }
+        else {
+            std::cout << "User not found, order not added.\n";
+        }
     }
 
     void addOrUpdateMenuItem(const std::string& key, const std::string& name, float price) {
@@ -130,7 +140,8 @@ public:
         float total = 0.0;
         std::cout << "Lunch Orders Report:\n";
         for (const auto& order : lunchOrders) {
-            std::cout << "User: " << order.username << ", Meal: " << order.meal << ", Price: $" << order.price << std::endl;
+            std::cout << "User: " << order.username << ", Meal: " << order.meal
+                << ", Price: $" << order.price << ", Payment Method: " << order.paymentMethod << std::endl;
             total += order.price;
         }
         std::cout << "Total Revenue: $" << total << std::endl;
@@ -260,8 +271,6 @@ void showSchoolUserMenu(Administrator& admin) {
                     return; // Or handle this scenario as you see fit
                 }
 
-                admin.addLunchOrder(username, meal, price);
-                std::cout << "Order placed successfully.\n";
             }
 
             else if (choice == "S2") {
