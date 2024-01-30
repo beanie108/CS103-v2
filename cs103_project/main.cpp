@@ -3,174 +3,19 @@
 #include <map>
 #include <limits>
 #include <vector>
+#include "Administrator.h"
+#include "User.h"
+#include "MenuItem.h"
+#include "UserType.h"
+#include "LunchOrder.h"
 
+void showMenu();
+void showAdminMenu();
+void showAdminUserMenu();
+void showSchoolLunchesMenu();
+void showLunchMenuOptions();
+void showSchoolUserMenu(Administrator& admin);
 
-enum class UserType { TEACHER, STUDENT };
-
-struct LunchOrder {
-    std::string username;
-    std::string meal;
-    float price;
-    std::string paymentMethod;  
-};
-
-struct MenuItem {
-    std::string name;
-    float price;
-};
-
-class User {
-public:
-    std::string username;
-    std::string password;
-    UserType userType;
-
-    User() : userType(UserType::STUDENT) {}
-
-    User(std::string uname, std::string pword, UserType type)
-        : username(uname), password(pword), userType(type) {}
-};
-
-
-class Administrator {
-private:
-    std::map<std::string, User> users;
-    const std::string adminUsername = "admin";
-    const std::string adminPassword = "admin789";
-    std::vector<LunchOrder> lunchOrders;
-    std::map<std::string, MenuItem> lunchMenu;
-
-public:
-    Administrator() {
-        // Add predefined user Bob
-        addUser("Bob", "Bob2024", UserType::STUDENT, false);
-        // Initialize with default menu items
-        lunchMenu["OP1"] = { "Chicken Pasta", 10.0 };
-        lunchMenu["OP2"] = { "Spaghetti Bolognaise", 12.0 };
-        lunchMenu["OP3"] = { "Falafel Salad", 8.0 };
-    }
-
-
-    bool login(std::string username, std::string password) {
-        return username == adminUsername && password == adminPassword;
-    }
-
-    void addUser(std::string username, std::string password, UserType userType, bool showSuccessMessage = true) {
-        if (users.find(username) == users.end()) {
-            users[username] = User(username, password, userType);
-            if (showSuccessMessage) {
-                std::cout << "User " << username << " added successfully.\n";
-            }
-        }
-        else {
-            std::cout << "User already exists.\n";
-        }
-    }
-
-    bool isUserValid(std::string username, std::string password) {
-        auto it = users.find(username);
-        if (it != users.end() && it->second.password == password) {
-            return true;
-        }
-        return false;
-    }
-
-    void editUserPassword(std::string username, std::string newPassword) {
-        auto it = users.find(username);
-        if (it != users.end()) {
-            it->second.password = newPassword;
-            std::cout << "Password for " << username << " updated successfully.\n";
-        }
-        else {
-            std::cout << "User not found.\n";
-        }
-    }
-
-    void deleteUser(std::string username) {
-        if (users.erase(username) > 0) {
-            std::cout << "User " << username << " deleted successfully.\n";
-        }
-        else {
-            std::cout << "User not found.\n";
-        }
-    }
-
-    void showAllUsers() {
-        if (users.empty()) {
-            std::cout << "No users are currently registered.\n";
-        }
-        else {
-            std::cout << "List of all registered users:\n";
-            for (const auto& userPair : users) {
-                std::cout << userPair.first << " (Type: " << static_cast<int>(userPair.second.userType) << ")" << std::endl;
-            }
-        }
-    }
-
-    void addLunchOrder(const std::string& username, const std::string& meal, float price) {
-        auto userIt = users.find(username);
-        if (userIt != users.end()) {
-            float discount = getDiscountPercentage(userIt->second.userType);
-            float discountedPrice = price * (1 - discount);
-            std::string paymentMethod = (paymentMethod == "1" ? "Cash" : "Eftpos");
-            lunchOrders.push_back(LunchOrder{ username, meal, discountedPrice, paymentMethod });
-        }
-        else {
-            std::cout << "User not found, order not added.\n";
-        }
-    }
-
-    void addOrUpdateMenuItem(const std::string& key, const std::string& name, float price) {
-        auto it = lunchMenu.find(key);
-        if (it != lunchMenu.end()) {
-            it->second = { name, price };
-            std::cout << "Menu item '" << key << "' updated to " << name << " with price $" << price << std::endl;
-        }
-        else {
-            std::cout << "Invalid menu item key. Please use OP1, OP2, or OP3.\n";
-        }
-    }
-
-    void showLunchMenu() {
-        for (const auto& item : lunchMenu) {
-            std::cout << item.first << " - " << item.second.name << " ($" << item.second.price << ")\n";
-        }
-    }
-
-    void generateLunchReport() {
-        float total = 0.0;
-        std::cout << "Lunch Orders Report:\n";
-        for (const auto& order : lunchOrders) {
-            std::cout << "User: " << order.username << ", Meal: " << order.meal
-                << ", Price: $" << order.price << ", Payment Method: " << order.paymentMethod << std::endl;
-            total += order.price;
-        }
-        std::cout << "Total Revenue: $" << total << std::endl;
-    }
-
-    float getDiscountPercentage(UserType userType) {
-        switch (userType) {
-        case UserType::TEACHER:
-            return 0.25; // 25% discount for teachers
-        case UserType::STUDENT:
-            return 0.0; // 0% discount for students
-        default:
-            return 0.0;
-        }
-    }
-
-    void purchaseMeal(std::string username, float mealPrice) {
-        auto it = users.find(username);
-        if (it != users.end()) {
-            float discount = getDiscountPercentage(it->second.userType);
-            float discountedPrice = mealPrice * (1 - discount);
-            std::cout << "Original price: $" << mealPrice << ", Discounted price: $" << discountedPrice << std::endl;
-        }
-        else {
-            std::cout << "User not found.\n";
-        }
-    }
-};
 
 void showMenu() {
     std::cout << "Select an option:" << std::endl;
